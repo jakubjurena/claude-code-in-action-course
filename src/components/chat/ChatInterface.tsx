@@ -5,6 +5,7 @@ import { MessageList } from "./MessageList";
 import { MessageInput } from "./MessageInput";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { useChat } from "@/lib/contexts/chat-context";
+import { EmptyState } from "./EmptyState";
 
 export function ChatInterface() {
   const scrollAreaRef = useRef<HTMLDivElement>(null);
@@ -24,11 +25,17 @@ export function ChatInterface() {
 
   return (
     <div className="flex flex-col h-full p-4 overflow-hidden">
-      <ScrollArea ref={scrollAreaRef} className="flex-1 overflow-hidden">
-        <div className="pr-4 h-full">
-          <MessageList messages={messages} isLoading={status === "streaming"} />
+      {messages.length === 0 ? (
+        <div className="flex-1 flex items-center justify-center">
+          <EmptyState />
         </div>
-      </ScrollArea>
+      ) : (
+        <ScrollArea ref={scrollAreaRef} className="flex-1 overflow-hidden">
+          <div className="pr-4">
+            <MessageList messages={messages} isLoading={status === "streaming"} />
+          </div>
+        </ScrollArea>
+      )}
       <div className="mt-4 flex-shrink-0">
         <MessageInput
           input={input}
