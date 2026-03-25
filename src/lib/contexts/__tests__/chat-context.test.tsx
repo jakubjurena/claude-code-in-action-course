@@ -46,9 +46,7 @@ describe("ChatContext", () => {
 
   const mockUseAIChat = {
     messages: [],
-    input: "",
-    handleInputChange: vi.fn(),
-    handleSubmit: vi.fn(),
+    sendMessage: vi.fn(),
     status: "idle",
   };
 
@@ -96,15 +94,13 @@ describe("ChatContext", () => {
       </ChatProvider>
     );
 
-    expect(useAIChat).toHaveBeenCalledWith({
-      api: "/api/chat",
-      initialMessages,
-      body: {
-        files: mockFileSystem.serialize(),
-        projectId: "test-project",
-      },
-      onToolCall: expect.any(Function),
-    });
+    expect(useAIChat).toHaveBeenCalledWith(
+      expect.objectContaining({
+        messages: initialMessages,
+        onToolCall: expect.any(Function),
+        transport: expect.any(Object),
+      })
+    );
 
     expect(screen.getByTestId("messages").textContent).toBe("2");
   });
@@ -191,9 +187,9 @@ describe("ChatContext", () => {
       </ChatProvider>
     );
 
-    const toolCall = { toolName: "test", args: {} };
+    const toolCall = { toolName: "test", input: {} };
     onToolCallHandler({ toolCall });
 
-    expect(mockHandleToolCall).toHaveBeenCalledWith(toolCall);
+    expect(mockHandleToolCall).toHaveBeenCalledWith({ toolName: "test", args: {} });
   });
 });

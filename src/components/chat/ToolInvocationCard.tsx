@@ -16,9 +16,10 @@ interface ToolInvocationCardProps {
   toolInvocation: {
     toolCallId: string;
     toolName: string;
-    args: Record<string, any>;
-    state: "partial-call" | "call" | "result";
-    result?: string | { success: boolean; message?: string; error?: string };
+    input: Record<string, any>;
+    state: string;
+    output?: unknown;
+    errorText?: string;
   };
 }
 
@@ -65,28 +66,22 @@ function getOperationIcon(toolName: string, command?: string): LucideIcon {
 }
 
 function isPending(state: string): boolean {
-  return state !== "result";
+  return state !== "output-available" && state !== "output-error";
 }
 
-function isError(
-  state: string,
-  result?: string | { success: boolean; message?: string; error?: string }
-): boolean {
-  if (state !== "result") return false;
-  if (result === undefined) return false;
-  if (typeof result === "string") return result.startsWith("Error");
-  return result.success === false;
+function isError(state: string): boolean {
+  return state === "output-error";
 }
 
 export function ToolInvocationCard({ toolInvocation }: ToolInvocationCardProps) {
-  const { toolName, args, state, result } = toolInvocation;
-  const command: string | undefined = args?.command;
+  const { toolName, input, state } = toolInvocation;
+  const command: string | undefined = input?.command;
 
   const label = getOperationLabel(toolName, command);
-  const filename = getDisplayFilename(toolName, args ?? {});
+  const filename = getDisplayFilename(toolName, input ?? {});
   const OperationIcon = getOperationIcon(toolName, command);
   const pending = isPending(state);
-  const error = isError(state, result);
+  const error = isError(state);
 
   return (
     <div className="inline-flex items-center gap-2 mt-2 px-3 py-1.5 bg-neutral-50 rounded-lg border border-neutral-200">
