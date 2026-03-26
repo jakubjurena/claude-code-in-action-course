@@ -54,3 +54,14 @@ npx vitest run src/path/to/file.test.ts
 ### UI components
 
 Shadcn UI (New York style) with Radix UI primitives, Tailwind CSS v4, and Lucide icons. Component configs in `components.json`.
+
+## Playwright (browser automation)
+
+When taking screenshots with the `browser_take_screenshot` tool, always prefix the filename with `screenshots/` so files land in the gitignored `/screenshots/` folder instead of the project root:
+
+```
+filename: "screenshots/my-screenshot.png"  ✓
+filename: "my-screenshot.png"              ✗  (ends up in root, not gitignored)
+```
+
+The `.playwright-mcp/` folder (session logs) is also gitignored — do not commit it.
