@@ -2,6 +2,16 @@
 
 AI-powered React component generator with live preview.
 
+## Contents
+
+- [Prerequisites](#prerequisites)
+- [Setup](#setup)
+- [Running the Application](#running-the-application)
+- [Usage](#usage)
+- [Features](#features)
+- [UX TODO](#ux-todo) — known UX issues identified via Playwright exploration
+- [Tech Stack](#tech-stack)
+
 ## Prerequisites
 
 - Node.js 18+
@@ -55,6 +65,19 @@ Open [http://localhost:3000](http://localhost:3000)
 - Syntax highlighting and code editor
 - Component persistence for registered users
 - Export generated code
+
+## UX TODO
+
+Identified via manual Playwright exploration:
+
+- [ ] **Uživatelská zpráva vypadá jako tlačítko** — modrý bubble s bílým textem působí jako klikatelný element, ne chatová zpráva
+- [ ] **Nekonzistentní název aplikace** — levý panel říká "React Component Generator", pravý "Welcome to UI Generator"
+- [ ] **Sign In / Sign Up špatně umístěné** — auth tlačítka jsou v headeru Preview panelu místo v globálním headeru
+- [ ] **Chybí "Copy code" tlačítko** — po vygenerování kódu není viditelná možnost zkopírovat ho
+- [ ] **Tmavé preview pozadí jako default** — iframe má tmavé pozadí natvrdo; bylo by lepší mít světlé jako default + přepínač
+- [ ] **Code tab zbytečný před první generací** — prázdný file tree + editor state matou uživatele; tab by měl být skrytý nebo zobrazit jasnou instrukci
+- [ ] **Žádné příklady / follow-up hinty** — po vygenerování chybí návrhy dalších promptů ("Try: make it red", "Add an icon"…)
+- [ ] **Send button nemá label** — ikonka šipky bez textu, disable stav vizuálně téměř nerozeznatelný
 
 ## Tech Stack
 
